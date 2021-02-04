@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input id="inputLocation" type="text" class="form-control"
+                    placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button id="search" type="button" class="btn btn-danger">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            <h1 id="location">Dhaka</h1>
+            <h3><span id="tempareture">00</span>&deg;C</h3>
+            <h1 class="lead" id="status">Clouds</h1>
+        </div>
+    </div>
+    <script>
+
+        document.getElementById('search').addEventListener("click", function () {
+            const inputValue = document.getElementById('inputLocation').value;
+            console.log(inputValue)
+
+            fetch('https://api.openweathermap.org/data/2.5/weather?q=' + inputValue + '&appid=968adddb076212719e946602cf40e2d3')
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    const contryName = data.name;
+                    document.getElementById("location").innerText = contryName;
+
+                    const tempareture = Math.round(data.main.temp - 273.15);
+                    document.getElementById("tempareture").innerText = tempareture;
+
+                    const statusSky = data.weather[0].description;
+                    document.getElementById("status").innerText = statusSky;
+                })
+                .catch(error => alert("incurect City! Please try again"));
+        });
+
+
+        //cToF(60);
+
+    </script>
+</body>
+
+</html>
